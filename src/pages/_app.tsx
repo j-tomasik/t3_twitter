@@ -18,7 +18,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta name="description" content='This is a Twitter clone by Jack Tomasik made with NextJS'></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <div className='container mx-auto flex'>
+        {/* <SideNav /> */}
+        <div className='min-h-screen flex-grow border-x'>
+          <Component {...pageProps} />
+        </div>
+      </div>
     </SessionProvider>
   );
 };
