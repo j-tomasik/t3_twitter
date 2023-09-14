@@ -12,6 +12,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <Head>
+        <title>Twitter Clone</title>
+        <meta name="description" content='This is a Twitter clone by Jack Tomasik made with NextJS'></meta>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Component {...pageProps} />
     </SessionProvider>
   );
