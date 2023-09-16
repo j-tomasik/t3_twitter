@@ -7,6 +7,6 @@ export default function NewTweetForm() {
             <textarea className='flex-grow resize-none overflow-hidden p-4 text-lg outline-none'
             placeholder="What's happening?"/>
         </div>
-        <Button>Tweet</Button>
+        <Button className="self-end">Tweet</Button>
     </form>
 }
