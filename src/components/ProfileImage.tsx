@@ -4,5 +4,9 @@ type ProfileImageProps ={
 }
 
 export function ProfileImage({src, className = ""}: ProfileImageProps) {
-    return<h1>sdf</h1>
+
+    return <div className={`relative h-12 w-12 overflow-hidden rounded-full ${className} `}>
+        {src == null ? null : <Image src={src} alt='profile image' quality={100} fill/>}
+    </div>
+
 }
