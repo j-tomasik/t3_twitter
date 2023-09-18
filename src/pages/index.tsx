@@ -1,5 +1,5 @@
 import Link from "next/link";
-import NewTweetForm from '../components/NewTweetForm'
+import {NewTweetForm} from '../components/NewTweetForm'
 
 
 
