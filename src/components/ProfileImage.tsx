@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type ProfileImageProps ={
     src?: string | null
     className ?: string
