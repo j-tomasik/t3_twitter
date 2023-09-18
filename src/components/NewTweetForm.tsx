@@ -10,10 +10,20 @@ function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
     textArea.style.height = `${textArea.scrollHeight}px`
 }
 
-export default function NewTweetForm() { 
+export function NewTweetForm() { 
+    const session = useSession();
+    if (session.status !== "authenticated") return null;
+
+    return <Form />
+}
+
+
+
+function Form() {
     const session = useSession()
     const [inputValue, setInputValue] = useState('');
     const textAreaRef = useRef<HTMLTextAreaElement>()
+
     const inputRef = useCallback((textArea:HTMLTextAreaElement) => {
         updateTextAreaSize(textArea);
         textAreaRef.current = textArea
@@ -39,3 +49,4 @@ export default function NewTweetForm() {
         <Button className="self-end">Tweet</Button>
     </form>
 }
+
