@@ -1,7 +1,7 @@
 import { Button } from "./Button";
 import { ProfileImage} from "./ProfileImage";
 import { useSession } from "next-auth/react";
-import { useEffect, useState, useRef } from 'react';
+import { useLayoutEffect, useState, useRef, useCallback } from 'react';
 
 
 function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
@@ -14,8 +14,12 @@ export default function NewTweetForm() {
     const session = useSession()
     const [inputValue, setInputValue] = useState('');
     const textAreaRef = useRef<HTMLTextAreaElement>()
+    const inputRef = useCallback((textArea:HTMLTextAreaElement) => {
+        updateTextAreaSize(textArea);
+        textAreaRef.current = textArea
+    }, [])
     
-    useEffect(() => {
+    useLayoutEffect(() => {
         updateTextAreaSize(textAreaRef.current)
     }, [inputValue])
     
@@ -25,6 +29,7 @@ export default function NewTweetForm() {
         <div className='flex gap-4 '>
             <ProfileImage src={session.data.user.image}/>
             <textarea 
+            ref={inputRef}
             style={{height: 0}}
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
