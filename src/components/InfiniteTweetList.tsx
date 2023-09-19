@@ -12,9 +12,9 @@ type InfiniteTweetListProps = {
     isLoading: boolean
     isError: boolean
     hasMore: boolean
-    fetchnewTweets: () => Promise<unknown>
+    fetchNewTweets: () => Promise<unknown>
     tweets?: Tweet[]
 }
-export function InfiniteTweetList ({tweets}: InfiniteTweetListProps) {
+export function InfiniteTweetList ({tweets,  isError, isLoading, fetchNewTweets, hasMore}: InfiniteTweetListProps) {
     return <h1>tweets here</h1>
 }
