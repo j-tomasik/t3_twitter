@@ -1,7 +1,8 @@
-import InfiniteScroll from "react-infinite-scroll-component"
-import Link from "next/link"
-import {ProfileImage } from "./ProfileImage"
-import { useSession } from "next-auth/react"
+import InfiniteScroll from "react-infinite-scroll-component";
+import Link from "next/link";
+import {ProfileImage } from "./ProfileImage";
+import { useSession } from "next-auth/react";
+import {VscHeartFilled, VscHeart} from "react-icons/vsc"
 
 type Tweet = {
     id: string
@@ -61,17 +62,27 @@ function TweetCard({id, user, content, createdAt, likeCount, likedByMe}: Tweet) 
                     <span className="text-gray-500">{dateTimeFormatter.format(createdAt)}</span>
                 </div>
                 <p className="whitespace-pre-wrap">{content}</p>
-                <HeartButton />
+                <HeartButton likedByMe={likedByMe} likeCount={likeCount}/>
             </div>
     </li>
             )
 }
 
-function HeartButton() {
+type HeartButtonProps = {
+    likedByMe: boolean
+    likeCount: number
+}
+
+function HeartButton({likedByMe, likeCount}:HeartButtonProps) {
     const session = useSession()
+    const HeartIcon = likedByMe ? VscHeartFilled : VscHeart
 
     if (session.status!== "authenticated") {
-        return <div className="mb-1 mt-1 flex items-center gap-3"></div>
+        return (<div className="mb-1 mt-1 flex items-center gap-3 self-start text-gray-500">
+            <HeartIcon />
+            <span>{likeCount}</span>
+        </div>
+        );
     }
     <h1>heard</h1>
 }
