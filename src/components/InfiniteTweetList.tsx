@@ -83,11 +83,23 @@ function HeartButton({likedByMe, likeCount}:HeartButtonProps) {
             <span>{likeCount}</span>
         </div>
         );
+
+    
     }
-    return (
-        <div className="mb-1 mt-1 flex items-center gap-3 self-start text-gray-500">
-            <HeartIcon />
+    return(
+        <button className={`group items-center gap-1 self-start flex transition-colors duration-200
+        ${likedByMe 
+        ? "text-red-500" 
+        : "text-gray-500 hover:text-red-500 focus-visable:text-red-500"
+        } `}
+        >
+            <HeartIcon className={`tranisition-colors duration-200 ${likedByMe 
+            ?'fill-red-500' 
+            : 'fill-gray-500 group-hover:fill-500 group-focus-visable:fill-red-500'
+            }`}
+            />
             <span>{likeCount}</span>
-        </div>
+        </button>
     )
 }
+    
