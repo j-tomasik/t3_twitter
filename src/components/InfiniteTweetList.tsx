@@ -84,5 +84,10 @@ function HeartButton({likedByMe, likeCount}:HeartButtonProps) {
         </div>
         );
     }
-    <h1>heard</h1>
+    return (
+        <div className="mb-1 mt-1 flex items-center gap-3 self-start text-gray-500">
+            <HeartIcon />
+            <span>{likeCount}</span>
+        </div>
+    )
 }
