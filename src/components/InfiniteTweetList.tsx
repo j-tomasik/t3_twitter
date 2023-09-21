@@ -98,7 +98,10 @@ function HeartButton({isLoading, onClick, likedByMe, likeCount}:HeartButtonProps
     
     }
     return(
-        <button className={`group -ml-2 items-center gap-1 self-start flex transition-colors duration-200 
+        <button 
+        disabled={isLoading}
+        onClick={onClick}
+        className={`group -ml-2 items-center gap-1 self-start flex transition-colors duration-200 
         ${likedByMe 
         ? "text-red-500" 
         : "text-gray-500 hover:text-red-500 focus-visable:text-red-500"
