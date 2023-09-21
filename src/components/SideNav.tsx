@@ -21,14 +21,14 @@ export default function SideNav(){
             </li>
             {user != null && (
                 <li>
-                    <Link href={`/profiles/${user.id}`}>Profile</Link>
+                    <Link href={`/profiles/${user.id}`}>
                     <IconHoverEffect>
                         <span className="flex items-center gap-4">
                             <VscAccount className='h-8 w-8' />
                             <span className="hidden text-lg md:inline">Profile</span>
                         </span>
                     </IconHoverEffect>
-                    
+                    </Link>
                 </li>
             )}
             {user == null ? (
@@ -42,7 +42,7 @@ export default function SideNav(){
                     </IconHoverEffect>
                     </button>
                 </li>
-            ): <li>
+            ): (<li>
                     <button onClick={() => void signOut()}>
                         <IconHoverEffect>
                         <span className="flex items-center gap-4">
@@ -53,8 +53,8 @@ export default function SideNav(){
                         </span>
                     </IconHoverEffect>
                     </button>
-                </li>}
-            {user == null ? null : null}
+                </li>)}
+            {/* {user == null ? null : null} */}
         </ul>
     </nav>
 }
