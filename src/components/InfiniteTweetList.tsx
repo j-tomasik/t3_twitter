@@ -93,11 +93,13 @@ function HeartButton({likedByMe, likeCount}:HeartButtonProps) {
         : "text-gray-500 hover:text-red-500 focus-visable:text-red-500"
         } `}
         >
+            <IconHoverEffect>
             <HeartIcon className={`tranisition-colors duration-200 ${likedByMe 
             ?'fill-red-500' 
             : 'fill-gray-500 group-hover:fill-500 group-focus-visable:fill-red-500'
             }`}
             />
+            </IconHoverEffect>
             <span>{likeCount}</span>
         </button>
     )
