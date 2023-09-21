@@ -3,6 +3,7 @@ import Link from "next/link";
 import {ProfileImage } from "./ProfileImage";
 import { useSession } from "next-auth/react";
 import {VscHeartFilled, VscHeart} from "react-icons/vsc"
+import { IconHoverEffect } from "./IconHoverEffect";
 
 type Tweet = {
     id: string
@@ -87,7 +88,7 @@ function HeartButton({likedByMe, likeCount}:HeartButtonProps) {
     
     }
     return(
-        <button className={`group items-center gap-1 self-start flex transition-colors duration-200
+        <button className={`group -ml-2 items-center gap-1 self-start flex transition-colors duration-200 
         ${likedByMe 
         ? "text-red-500" 
         : "text-gray-500 hover:text-red-500 focus-visable:text-red-500"
