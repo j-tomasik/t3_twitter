@@ -4,6 +4,7 @@ import {ProfileImage } from "./ProfileImage";
 import { useSession } from "next-auth/react";
 import {VscHeartFilled, VscHeart} from "react-icons/vsc"
 import { IconHoverEffect } from "./IconHoverEffect";
+import { api } from "~/utils/api";
 
 type Tweet = {
     id: string
@@ -46,6 +47,12 @@ export function InfiniteTweetList ({tweets,  isError, isLoading, fetchNewTweets,
 const dateTimeFormatter = Intl.DateTimeFormat(undefined, { dateStyle: "short"})
 
 function TweetCard({id, user, content, createdAt, likeCount, likedByMe}: Tweet) {
+    const toggleLike = api.tweet.toggleLike.useMutation()
+
+    function handleToggleLike() {
+        toggleLike.mutate({id})
+    }
+
     return (
     <li className='flex gap-4 border-b px-4 py-4'>
         <Link href={`/profiles/${user.id}`}>
@@ -63,18 +70,21 @@ function TweetCard({id, user, content, createdAt, likeCount, likedByMe}: Tweet) 
                     <span className="text-gray-500">{dateTimeFormatter.format(createdAt)}</span>
                 </div>
                 <p className="whitespace-pre-wrap">{content}</p>
-                <HeartButton likedByMe={likedByMe} likeCount={likeCount}/>
+                <HeartButton likedByMe={likedByMe} likeCount={likeCount}
+                onClick={handleToggleLike} isLoading={toggleLike.isLoading}/>
             </div>
     </li>
             )
 }
 
 type HeartButtonProps = {
+    isLoading: boolean
+    onClick: () => void
     likedByMe: boolean
     likeCount: number
 }
 
-function HeartButton({likedByMe, likeCount}:HeartButtonProps) {
+function HeartButton({isLoading, onClick, likedByMe, likeCount}:HeartButtonProps) {
     const session = useSession()
     const HeartIcon = likedByMe ? VscHeartFilled : VscHeart
 
