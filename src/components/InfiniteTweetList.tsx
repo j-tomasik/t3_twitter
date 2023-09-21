@@ -47,7 +47,11 @@ export function InfiniteTweetList ({tweets,  isError, isLoading, fetchNewTweets,
 const dateTimeFormatter = Intl.DateTimeFormat(undefined, { dateStyle: "short"})
 
 function TweetCard({id, user, content, createdAt, likeCount, likedByMe}: Tweet) {
-    const toggleLike = api.tweet.toggleLike.useMutation()
+    const trpcUtils = api.useContext()
+    const toggleLike = api.tweet.toggleLike.useMutation({
+        onSuccess: async ({addedLike}) => {
+        await trpcUtils.tweet.infiniteFeed.invalidate()
+    }})
 
     function handleToggleLike() {
         toggleLike.mutate({id})
