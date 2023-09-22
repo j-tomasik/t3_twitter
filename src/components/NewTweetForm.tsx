@@ -39,7 +39,7 @@ function Form() {
 
     const createTweet = api.tweet.create.useMutation({
         onSuccess: (newTweet) => {
-        console.log(newTweet)
+        
         setInputValue('');
 
         if(session.status !== "authenticated") {
@@ -55,8 +55,8 @@ function Form() {
                 likedByMe: false,
                 user: {
                     id: session.data.user.id,
-                    name: session.data.user.name,
-                    image: session.data.user.image,
+                    name: session.data.user.name || null,
+                    image: session.data.user.image || null,
                 }
             }
 
