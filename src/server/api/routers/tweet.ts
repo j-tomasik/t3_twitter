@@ -8,11 +8,13 @@ import {
 } from "~/server/api/trpc";
 
 export const tweetRouter = createTRPCRouter({
-  infiniteFeed: publicProcedure.input(z.object({
+  infiniteFeed: publicProcedure.input(
+    z.object({
+    onlyFollowing: z.boolean().optional(),
     limit: z.number().optional(), 
     cursor: z.object({ id: z.string(), createdAt: z.date()}).optional() 
   })
-  ).query(async ({ input: { limit = 10, cursor }, ctx}) => {
+  ).query(async ({ input: { limit = 10, onlyFollowing = false,cursor }, ctx}) => {
     const currentUserId = ctx.session?.user.id
 
     const data = await ctx.db.tweet.findMany({
@@ -76,3 +78,10 @@ export const tweetRouter = createTRPCRouter({
       }
     }),
 });
+
+function getInfiniteTwets({
+  whereClause,
+  ctx, limit, cursor
+}: {whereClause?: Prisma.TweetWhereInput, limit: number, cursor: {id: string, createdAt: Date}}) {
+   return null
+}

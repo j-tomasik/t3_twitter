@@ -27,7 +27,7 @@ export default function Home() {
       )}
     </header>
       <NewTweetForm />
-      <RecentTweets />
+      {selectedTab === 'Recent' ? <RecentTweets /> : <FollowingTweets/> }
   </>
   )
 };
@@ -44,5 +44,19 @@ function RecentTweets () {
   fetchNewTweets={tweets.fetchNextPage}
   />
 }
+
+function FollowingTweets () {
+  const tweets = api.tweet.infiniteFeed.useInfiniteQuery({onlyFollowing: true}, 
+    {getNextPageParam: (lastPage) => lastPage.nextCursor}
+    );
+
+  return <InfiniteTweetList tweets={tweets.data?.pages.flatMap(page => page.tweets)}
+  isError={tweets.isError}
+  isLoading={tweets.isLoading}
+  hasMore={tweets.hasNextPage}
+  fetchNewTweets={tweets.fetchNextPage}
+  />
+}
+
 
 
