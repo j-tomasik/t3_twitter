@@ -19,7 +19,9 @@ export default function Home() {
         <div className='flex'>
           {TABS.map(tab => {
             return <button key={tab} className={`flex-grow p-2 hover:bg-gray-200 focus-visible:bg-gray-200
-            ${tab === selectedTab ? "border-b-blue-500 front-bold" : ""}`}></button>
+            ${tab === selectedTab ? "border-b-blue-500 front-bold" : ""}`}
+            onClick={() => setSelectedTab(tab)}
+            >{tab}</button>
           })}
         </div>
       )}
