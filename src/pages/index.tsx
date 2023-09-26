@@ -17,7 +17,10 @@ export default function Home() {
       <h1 className='mb-2 px-4 text-lg font-bold'>Home</h1>
       {session.status === "authenticated" && (
         <div className='flex'>
-          {TABS}
+          {TABS.map(tab => {
+            return <button key={tab} className={`flex-grow p-2 hover:bg-gray-200 focus-visible:bg-gray-200
+            ${tab === selectedTab ? "border-b-blue-500 front-bold" : ""}`}></button>
+          })}
         </div>
       )}
     </header>
