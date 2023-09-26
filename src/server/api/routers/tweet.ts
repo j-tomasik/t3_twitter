@@ -2,10 +2,12 @@ import { z } from "zod";
 import { Prisma } from "@prisma/client";
 
 import {
+  createTRPCContext,
   createTRPCRouter, 
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+import { inferAsyncReturnType } from "@trpc/server";
 
 export const tweetRouter = createTRPCRouter({
   infiniteFeed: publicProcedure.input(
@@ -81,7 +83,13 @@ export const tweetRouter = createTRPCRouter({
 
 function getInfiniteTwets({
   whereClause,
-  ctx, limit, cursor
-}: {whereClause?: Prisma.TweetWhereInput, limit: number, cursor: {id: string, createdAt: Date}}) {
-   return null
+  ctx, 
+  limit, 
+  cursor
+}: {
+  whereClause?: Prisma.TweetWhereInput;
+  limit: number; 
+  cursor: {id: string, createdAt: Date} | undefined;
+  ctx: inferAsyncReturnType<typeof createTRPCContext>}) {
+  return null
 }
