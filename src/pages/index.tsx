@@ -4,18 +4,25 @@ import { InfiniteTweetList } from "~/components/InfiniteTweetList";
 import {api} from "~/utils/api";
 import { useSession } from "next-auth/react";
 
+const TABS = ['Recent', 'Following'] as const
 
 
 export default function Home() {
   const session = useSession()
-  return <>
+  return (
+  <>
     <header className='sticky top-0 z-10 border-b bg-white pt-2'>
       <h1 className='mb-2 px-4 text-lg font-bold'>Home</h1>
-      {session.status !== "authenticated"}
+      {session.status === "authenticated" && (
+        <div className='flex'>
+          {TABS}
+        </div>
+      )}
+    </header>
       <NewTweetForm />
       <RecentTweets />
-    </header>
   </>
+  )
 };
 
 function RecentTweets () {
