@@ -1,5 +1,6 @@
 import {NextPage} from 'next';
 import Head from 'next/head';
+import { ssgHelper } from '~/server/api/ssgHelper';
 
 const ProfilePage: NextPage = () => {
     return <>
@@ -20,6 +21,9 @@ export async function getStaticProps(context: GetStaticPathsContext<{id : string
             }
         }
     }
+
+    const ssg = ssgHelper()
+    ssg.profile
 }
 
 export default ProfilePage
