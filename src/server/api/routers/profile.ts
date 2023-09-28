@@ -24,6 +24,17 @@ export const profileRouter = createTRPCRouter({
                     ? undefined 
                     : {where: {id: currentUserId}},
                 }, 
-            })
+            });
+            if (profile == null) return 
+
+            return {
+                name: profile.name,
+                image: profile.image,
+                followersCount: profile._count.followers,
+                followsCount: profile._count.follows,
+                tweetCount: profile._count.tweets,
+                isFollowing: profile.followers.length > 0
+            }
+
         })
 })
