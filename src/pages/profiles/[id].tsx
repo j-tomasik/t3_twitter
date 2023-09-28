@@ -1,4 +1,4 @@
-import {NextPage} from 'next';
+import {GetStaticPropsContext, NextPage} from 'next';
 import Head from 'next/head';
 import { ssgHelper } from '~/server/api/ssgHelper';
 
@@ -11,8 +11,12 @@ const ProfilePage: NextPage = () => {
     </>
 }
 
-export async function getStaticProps(context: GetStaticPathsContext<{id : string}>) {
-    const id = context.params.id
+export const getStaticPaths: GetStaticPaths = () => {
+    
+}
+
+export async function getStaticProps(context: GetStaticPropsContext<{id : string}>) {
+    const id = context.params?.id
 
     if(id == null) {
         return {
@@ -23,7 +27,14 @@ export async function getStaticProps(context: GetStaticPathsContext<{id : string
     }
 
     const ssg = ssgHelper()
-    ssg.profile
+    await ssg.profile.getById.prefetch({id})
+
+    return {
+        props: {
+            trpcState: ssg.dehydrate(),
+            id
+        }
+    }
 }
 
 export default ProfilePage
