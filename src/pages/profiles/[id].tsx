@@ -8,6 +8,8 @@ import { IconHoverEffect } from '~/components/IconHoverEffect';
 import { VscArrowLeft } from 'react-icons/vsc';
 import { ProfileImage } from '~/components/ProfileImage';
 
+
+
 const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     id,
 }) => {
@@ -28,12 +30,17 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             <div className='ml-2 flex-grow'>
                 <h1 className="text-lg font-bold">{profile.name}</h1>
                 <div className="text-gray-500">
-                    {profile.tweetsCount}{"  "}
+                    {profile.tweetCount}{"  "}
                     {}
                 </div>
             </div>
         </header>
     </>
+}
+const pluralRules = new Intl.PluralRules()
+
+function getPlural(number: number, singular: string, plural: string) {
+    return pluralRules.select(number) === "one" ? singular : plural
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
