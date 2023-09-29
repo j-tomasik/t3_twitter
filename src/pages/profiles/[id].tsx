@@ -12,9 +12,9 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     if(profile == null || profile.name == null) return <ErrorPage statusCode={404}/>
     return <>
         <Head>
-            <title>{`Twitter Clone ${profile.name}`}</title>
+            <title>{`Twitter Clone -- ${profile.name}`}</title>
         </Head>
-    
+        {profile.name}
     </>
 }
 
