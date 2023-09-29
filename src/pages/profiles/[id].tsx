@@ -3,6 +3,9 @@ import Head from 'next/head';
 import { ssgHelper } from '~/server/api/ssgHelper';
 import { api } from '~/utils/api';
 import ErrorPage from 'next/error';
+import Link from 'next/link';
+import { IconHoverEffect } from '~/components/IconHoverEffect';
+import { VscArrowLeft } from 'react-icons/vsc';
 
 const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     id,
@@ -14,7 +17,13 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <Head>
             <title>{`Twitter Clone -- ${profile.name}`}</title>
         </Head>
-        {profile.name}
+        <header className='sticky top-0 z-10 flex items-center border-b bg-white px-4 py-2'>
+            <Link href='..' className='mr-2'>
+                <IconHoverEffect>
+                    <VscArrowLeft />
+                </IconHoverEffect>
+            </Link>
+        </header>
     </>
 }
 
