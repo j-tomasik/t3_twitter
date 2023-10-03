@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { IconHoverEffect } from '~/components/IconHoverEffect';
 import { VscArrowLeft } from 'react-icons/vsc';
 import { ProfileImage } from '~/components/ProfileImage';
+import { InfiniteTweetList } from '~/components/InfiniteTweetList';
 
 
 
@@ -36,10 +37,20 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                     {getPlural(profile.followersCount, 'Follower', 'Followers')} - {"  "}
                     {profile.followsCount} Following
                 </div>
+                <FollowButton isFollowing={profile.isFollowing} userId={id} onClick={() => null}/>
             </div>
+            <main>
+                <InfiniteTweetList />
+            </main>
         </header>
     </>
+};
+
+function FollowButton() {
+    return <h1>follow</h1>
 }
+
+
 const pluralRules = new Intl.PluralRules()
 
 function getPlural(number: number, singular: string, plural: string) {
