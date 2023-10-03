@@ -15,9 +15,14 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     id,
 }) => {
     const {data: profile} = api.profile.getById.useQuery({id})
+    const tweets = api.tweet.infiniteProfileFeed.useInfiniteQuery({userId: id},
+        {getNextPageParam: (lastPage) => lastPage.nextCursor})
+    if(profile == null || profile.name == null) {
+        return <ErrorPage statusCode={404}/>
+    }
 
-    if(profile == null || profile.name == null) return <ErrorPage statusCode={404}/>
-    return <>
+
+    return (<>
         <Head>
             <title>{`Twitter Clone -- ${profile.name}`}</title>
         </Head>
@@ -37,13 +42,17 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                     {getPlural(profile.followersCount, 'Follower', 'Followers')} - {"  "}
                     {profile.followsCount} Following
                 </div>
-                <FollowButton isFollowing={profile.isFollowing} userId={id} onClick={() => null}/>
             </div>
-            <main>
-                <InfiniteTweetList />
-            </main>
+                <FollowButton isFollowing={profile.isFollowing} userId={id} onClick={() => null}/>
         </header>
-    </>
+            <main>
+                <InfiniteTweetList tweets={tweets.data?.pages.flatMap(page => page.tweets)}
+                    isError={tweets.isError}
+                    isLoading={tweets.isLoading}
+                    hasMore={tweets.hasNextPage}
+                    fetchNewTweets={tweets.fetchNextPage}/>
+            </main>
+    </>)
 };
 
 function FollowButton() {
