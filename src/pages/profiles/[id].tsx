@@ -19,10 +19,16 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     const {data: profile} = api.profile.getById.useQuery({id})
     const tweets = api.tweet.infiniteProfileFeed.useInfiniteQuery({userId: id},
         {getNextPageParam: (lastPage) => lastPage.nextCursor})
+
+        const toggleFollow = api.profile.toggleFollow.useMutation({ onSuccess: ({
+            addedFollow}) => {
+
+            }})
+
+
     if(profile == null || profile.name == null) {
         return <ErrorPage statusCode={404}/>
     }
-
 
     return (<>
         <Head>
@@ -57,7 +63,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     </>)
 };
 
-function FollowButton({userId, isFollowing, onClick}: {userId:string, isFollowing:boolean, onClick: () => void}) {
+function FollowButton({userId, isFollowing, onClick}: {userId:string, isFollowing:boolean, onClick: () => toggleFollow}) {
     const session = useSession()
 
     if(session.status !== "authenticated" || session.data.user.id === userId) return null
