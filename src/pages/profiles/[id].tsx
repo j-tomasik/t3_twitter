@@ -62,7 +62,9 @@ function FollowButton({userId, isFollowing, onClick}: {userId:string, isFollowin
 
     if(session.status !== "authenticated" || session.data.user.id === userId) return null
     
-    return <Button></Button>
+    return <Button onClick={onClick} small gray={isFollowing}>
+        {isFollowing ? "Unfollow" : "Follow"}
+    </Button>
 }
 
 
