@@ -14,29 +14,31 @@ import { Button } from '~/components/Button';
 
 
 const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-    id,
+  id,
 }) => {
-    const {data: profile} = api.profile.getById.useQuery({id})
-    const tweets = api.tweet.infiniteProfileFeed.useInfiniteQuery({userId: id},
-        {getNextPageParam: (lastPage) => lastPage.nextCursor})
+  const { data: profile } = api.profile.getById.useQuery({ id });
+  const tweets = api.tweet.infiniteProfileFeed.useInfiniteQuery(
+    { userId: id },
+    { getNextPageParam: (lastPage) => lastPage.nextCursor }
+  );
+  const trpcUtils = api.useContext();
+  const toggleFollow = api.profile.toggleFollow.useMutation({
+    onSuccess: ({ addedFollow }) => {
+      trpcUtils.profile.getById.setData({ id }, (oldData) => {
+        if (oldData == null) return;
 
-        const trpcUtils = api.useContext()
-        const toggleFollow = api.profile.toggleFollow.useMutation({ onSuccess: ({
-            addedFollow}) => {
-                trpcUtils.profile.getById.setData({id}, oldData => {
-                    if(oldData == null) return
-
-                    const countModifier = addedFollow ? 1 : -1
-                    return {
-                        ...oldData,
-                        isFollowing: addedFollow,
-                        followersCount: oldData.followersCount + countModifier
-                    }
-                })
-            }})
+        const countModifier = addedFollow ? 1 : -1;
+        return {
+          ...oldData,
+          isFollowing: addedFollow,
+          followersCount: oldData.followersCount + countModifier,
+        };
+      });
+    },
+  });
 
 
-    if(profile == null || profile.name == null) {
+    if(profile == null || profile?.name == null) {
         return <ErrorPage statusCode={404}/>
     }
 
