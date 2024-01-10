@@ -22,6 +22,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     { getNextPageParam: (lastPage) => lastPage.nextCursor }
   );
   const trpcUtils = api.useContext();
+  
   const toggleFollow = api.profile.toggleFollow.useMutation({
     onSuccess: ({ addedFollow }) => {
       trpcUtils.profile.getById.setData({ id }, (oldData) => {
