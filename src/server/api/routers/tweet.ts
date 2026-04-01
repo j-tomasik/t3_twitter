@@ -17,8 +17,6 @@ export const tweetRouter = createTRPCRouter({
     cursor: z.object({ id: z.string(), createdAt: z.date()}).optional() 
     })
   ).query(async ({ input: { limit = 10, userId, cursor }, ctx}) => {
-    const currentUserId = ctx.session?.user.id
-
     return await getInfiniteTweets({
       limit, ctx, cursor, whereClause:
         {userId}
@@ -35,7 +33,7 @@ export const tweetRouter = createTRPCRouter({
     const currentUserId = ctx.session?.user.id
 
     return await getInfiniteTweets({
-      limit, ctx, cursor, whereClause: currentUserId === null || !onlyFollowing ? undefined 
+      limit, ctx, cursor, whereClause: currentUserId == null || !onlyFollowing ? undefined
       : {
         user : {
           followers: {some: {id : currentUserId}},
@@ -47,13 +45,14 @@ export const tweetRouter = createTRPCRouter({
 
 
   create: protectedProcedure
-    .input(z.object({ content: z.string() }))
+    .input(z.object({ content: z.string().min(1).max(280) }))
     .mutation(async ({ input: { content }, ctx}) => {
       const tweet = await ctx.db.tweet.create({ 
         data: {content, userId: ctx.session.user.id,
       }});
 
       void ctx.revalidateSSG?.(`/profiles/${ctx.session.user.id}`)
+      void ctx.revalidateSSG?.(`/`)
 
       return tweet;
     }),
@@ -119,7 +118,7 @@ async function getInfiniteTweets({
         createdAt: tweet.createdAt,
         likeCount: tweet._count.likes,
         user: tweet.user,
-        likedByMe: tweet.likes?.length > 0,
+        likedByMe: tweet.likes !== false && tweet.likes.length > 0,
       }
     }), nextCursor}
 

@@ -1,13 +1,10 @@
 import { z } from "zod";
-import { Prisma } from "@prisma/client";
 
 import {
-  createTRPCContext,
-  createTRPCRouter, 
+  createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { inferAsyncReturnType } from "@trpc/server";
 
 export const profileRouter = createTRPCRouter({
     getById: publicProcedure.input(z.object({ id: z.string()})).query(async ({
@@ -33,7 +30,7 @@ export const profileRouter = createTRPCRouter({
                 followersCount: profile._count.followers,
                 followsCount: profile._count.follows,
                 tweetCount: profile._count.tweets,
-                isFollowing: profile.followers.length > 0
+                isFollowing: profile.followers != null && profile.followers.length > 0
             }
 
         }),
@@ -60,7 +57,7 @@ export const profileRouter = createTRPCRouter({
             }
 
             void ctx.revalidateSSG?.(`/profiles/${userId}`)
-            void ctx.revalidateSSG?.(`/profile/${currentUserId}`)
+            void ctx.revalidateSSG?.(`/profiles/${currentUserId}`)
 
             return { addedFollow}
         }),

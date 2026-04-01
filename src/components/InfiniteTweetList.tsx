@@ -28,7 +28,7 @@ export function InfiniteTweetList ({tweets,  isError, isLoading, fetchNewTweets,
     if(isError) return <h1>Error...</h1>
     
     if (tweets == null || tweets.length === 0) {
-        return <h2 className='my-4 text-center text-2x1 text-gray-500'>No Tweets</h2>
+        return <h2 className='my-4 text-center text-2xl text-gray-500'>No Tweets</h2>
     }
 
     return (
@@ -159,13 +159,13 @@ function HeartButton({isLoading, onClick, likedByMe, likeCount}:HeartButtonProps
         className={`group -ml-2 items-center gap-1 self-start flex transition-colors duration-200 
         ${likedByMe 
         ? "text-red-500" 
-        : "text-gray-500 hover:text-red-500 focus-visable:text-red-500"
+        : "text-gray-500 hover:text-red-500 focus-visible:text-red-500"
         } `}
         >
             <IconHoverEffect>
-            <HeartIcon className={`tranisition-colors duration-200 ${likedByMe 
+            <HeartIcon className={`transition-colors duration-200 ${likedByMe
             ?'fill-red-500' 
-            : 'fill-gray-500 group-hover:fill-500 group-focus-visable:fill-red-500'
+            : 'fill-gray-500 group-hover:fill-red-500 group-focus-visible:fill-red-500'
             }`}
             />
             </IconHoverEffect>
