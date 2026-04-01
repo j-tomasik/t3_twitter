@@ -2,7 +2,7 @@ import { api } from "~/utils/api";
 import { Button } from "./Button";
 import { ProfileImage} from "./ProfileImage";
 import { useSession } from "next-auth/react";
-import { useLayoutEffect, useState, useRef, useCallback, FormEvent } from 'react';
+import { useEffect, useState, useRef, useCallback, FormEvent } from 'react';
 
 
 function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
@@ -23,7 +23,7 @@ export function NewTweetForm() {
 function Form() {
     const session = useSession()
     const [inputValue, setInputValue] = useState('');
-    const textAreaRef = useRef<HTMLTextAreaElement>()
+    const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
 
     const inputRef = useCallback((textArea: HTMLTextAreaElement) => {
         updateTextAreaSize(textArea);
@@ -33,8 +33,8 @@ function Form() {
     const trpcUtils = api.useContext()
 
     
-    useLayoutEffect(() => {
-        updateTextAreaSize(textAreaRef.current)
+    useEffect(() => {
+        updateTextAreaSize(textAreaRef.current ?? undefined)
     }, [inputValue]);
 
     const createTweet = api.tweet.create.useMutation({
@@ -75,7 +75,7 @@ function Form() {
 
     function handleSubmit (e: FormEvent) {
         e.preventDefault()
-
+        if (!inputValue.trim()) return
         createTweet.mutate({content: inputValue})
     }
     
