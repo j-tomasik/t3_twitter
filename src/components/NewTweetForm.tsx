@@ -34,7 +34,7 @@ function Form() {
 
     
     useEffect(() => {
-        updateTextAreaSize(textAreaRef.current)
+        updateTextAreaSize(textAreaRef.current ?? undefined)
     }, [inputValue]);
 
     const createTweet = api.tweet.create.useMutation({

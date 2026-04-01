@@ -118,7 +118,7 @@ async function getInfiniteTweets({
         createdAt: tweet.createdAt,
         likeCount: tweet._count.likes,
         user: tweet.user,
-        likedByMe: tweet.likes !== false && tweet.likes.length > 0,
+        likedByMe: Array.isArray(tweet.likes) && tweet.likes.length > 0,
       }
     }), nextCursor}
 
