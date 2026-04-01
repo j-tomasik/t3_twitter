@@ -54,7 +54,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Augment — Diagnose and fix failures
-        uses: augmentcode/augment-action@v1
+        uses: augmentcode/augment-action@0.0.2
         with:
           augment-api-key: ${{ secrets.AUGMENT_API_KEY }}
           task: |
@@ -89,7 +89,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Run Augment to analyze changes and generate tests
-        uses: augmentcode/augment-action@v1   # official Augment GitHub Action
+        uses: augmentcode/augment-action@0.0.2
         with:
           augment-api-key: ${{ secrets.AUGMENT_API_KEY }}
           task: |
